@@ -18,6 +18,7 @@
 
 package plugily.projects.murdermystery;
 
+import org.edelsweiss.BattlePassBridge;
 import org.jetbrains.annotations.TestOnly;
 import plugily.projects.minigamesbox.classic.PluginMain;
 import plugily.projects.minigamesbox.classic.handlers.setup.SetupInventory;
@@ -51,6 +52,7 @@ public class Main extends PluginMain {
   private SwordSkinManager swordSkinManager;
   private HookManager hookManager;
   private CorpseHandler corpseHandler;
+  private BattlePassBridge battlePassBridge;
 
   @TestOnly
   public Main() {
@@ -103,6 +105,10 @@ public class Main extends PluginMain {
     new SpecialBlockEvents(this);
     trailsManager = new TrailsManager(this);
     hookManager = new HookManager(this);
+    if (getHookManager().isFeatureEnabled(HookManager.HookFeature.BATTLE_PASS)) {
+      battlePassBridge = new BattlePassBridge(this);
+      battlePassBridge.setup();
+    }
     corpseHandler = new CorpseHandler(this);
     swordSkinManager = new SwordSkinManager(this);
     new PluginEvents(this);
@@ -161,4 +167,6 @@ public class Main extends PluginMain {
   public PluginSetupCategoryManager getSetupCategoryManager(SetupInventory setupInventory) {
     return new SetupCategoryManager(setupInventory);
   }
+
+  public BattlePassBridge getBattlePassBridge() { return battlePassBridge; }
 }

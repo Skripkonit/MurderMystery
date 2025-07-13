@@ -391,6 +391,9 @@ public class ArenaEvents extends PluginArenaEvents {
       ArenaUtils.dropBowAndAnnounce(arena, player);
     }
     user.adjustStatistic("DEATHS", 1);
+    if (plugin.getBattlePassBridge() != null && plugin.getBattlePassBridge().isEnabled()) {
+      plugin.getBattlePassBridge().death(player);
+    }
     user.setSpectator(true);
     VersionUtils.setCollidable(player, false);
     player.setGameMode(GameMode.SURVIVAL);

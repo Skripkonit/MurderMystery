@@ -153,16 +153,19 @@ public class ArenaManager extends PluginArenaManager {
           }
           pluginArena.adjustContributorValue(Role.MURDERER, user, plugin.getRandom().nextInt(10 * multiplicator));
           pluginArena.adjustContributorValue(Role.DETECTIVE, user, plugin.getRandom().nextInt(10 * multiplicator));
-          if(!hasDeathRole) {
-            boolean hasMurdererRole = Role.isRole(Role.MURDERER, user, arena);
-            if(murderWon || !hasMurdererRole) {
-              user.adjustStatistic("WINS", 1);
-              plugin.getRewardsHandler().performReward(player, plugin.getRewardsHandler().getRewardType("WIN"));
-            } else {
-              user.adjustStatistic("LOSES", 1);
-              plugin.getRewardsHandler().performReward(player, plugin.getRewardsHandler().getRewardType("LOSE"));
+          boolean hasMurdererRole = Role.isRole(Role.MURDERER, user, arena);
+          boolean isWinner =
+            (!hasDeathRole && !Role.isRole(Role.SPECTATOR, user, arena))
+              && ((murderWon && hasMurdererRole) || (!murderWon && !hasMurdererRole));
+
+          if (isWinner) {
+            user.adjustStatistic("WINS", 1);
+            plugin.getRewardsHandler().performReward(player, plugin.getRewardsHandler().getRewardType("WIN"));
+
+            if (plugin.getBattlePassBridge() != null && plugin.getBattlePassBridge().isEnabled()) {
+              plugin.getBattlePassBridge().win(player); // BattlePass progress
             }
-          } else {
+          } else if (!quickStop && Role.isAnyRole(user, arena)) {
             user.adjustStatistic("LOSES", 1);
             plugin.getRewardsHandler().performReward(player, plugin.getRewardsHandler().getRewardType("LOSE"));
           }

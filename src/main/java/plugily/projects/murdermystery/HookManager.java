@@ -64,7 +64,8 @@ public class HookManager {
   }
 
   public enum HookFeature {
-    CORPSES(Hook.CORPSE_REBORN);
+    CORPSES(Hook.CORPSE_REBORN),
+    BATTLE_PASS(Hook.BATTLE_PASS);
 
     private final Hook[] requiredHooks;
 
@@ -78,7 +79,8 @@ public class HookManager {
   }
 
   public enum Hook {
-    CORPSE_REBORN("CorpseReborn");
+    CORPSE_REBORN("CorpseReborn"),
+    BATTLE_PASS("BattlePass");
 
     private final String pluginName;
 
