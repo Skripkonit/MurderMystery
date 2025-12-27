@@ -91,7 +91,7 @@
             <artifactId>BattlePass</artifactId>
             <version>LATEST</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/lib/BattlePass-5.0.3.jar</systemPath>
+            <systemPath>${project.basedir}/libs-private/BattlePass-5.0.3.jar</systemPath>
         </dependency>
     </dependencies>
 
